@@ -1,14 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import "@total-typescript/ts-reset";
 
-
-import { api } from "~/utils/api";
+import { api } from "~/lib/api";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
-  console.log(hello);
 
   return (
     <>
@@ -21,9 +17,13 @@ const Home: NextPage = () => {
         <link rel="manifest" href="/site.webmanifest"/>
         <link rel="mask-icon" href="/safari-pinned-ta/b.svg" color="#5bbad5"/>
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <h1 className="text-4xl font-bold text-white">Politoed</h1>
-        <p className="text-white">{hello?.data?.greeting}</p>
+      <main className="flex min-h-screen flex-col items-center justify-center">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Politoed 
+        </h1>
+        <p className="text-xl text-slate-700 dark:text-slate-400">
+          {hello?.data?.greeting}
+        </p>
       </main>
     </>
   );
