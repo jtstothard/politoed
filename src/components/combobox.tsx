@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Input } from "postcss";
 
 type CommandComboboxContextType = ReturnType<typeof useComboBox>;
 
@@ -48,6 +49,7 @@ const useComboBox = (props: CommandComboboxProp) => {
   const { loading = false, options, onChange, value } = props;
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(value ?? "");
+  const [input, setInput] = React.useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -75,18 +77,30 @@ const useComboBox = (props: CommandComboboxProp) => {
     selected,
     handleOpen,
     handleClose,
+    setOpen,
+    setInput,
+    input,
   };
 };
 
 export function CommandCombobox(props: CommandComboboxProp) {
   const state = useComboBox(props);
 
-  const { loading, options, open, handleSelect, label, handleOpen, selected } =
-    state;
+  const {
+    loading,
+    options,
+    open,
+    handleSelect,
+    label,
+    setOpen,
+    selected,
+    setInput,
+    input,
+  } = state;
 
   return (
     <CommandComboboxContext.Provider value={state}>
-      <Popover open={open} onOpenChange={handleOpen}>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
@@ -100,25 +114,35 @@ export function CommandCombobox(props: CommandComboboxProp) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
-          <Command>
-            <CommandInput placeholder="Search option..." />
+          <Command shouldFilter={false}>
+            <CommandInput
+              value={input}
+              onValueChange={setInput}
+              placeholder="Search option..."
+            />
             <CommandEmpty>No option found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  onSelect={handleSelect}
-                  value={option.value}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selected === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
+              {options
+                .filter((item) => {
+                  const labelLower = item.label.toLowerCase();
+                  const inputLower = input.toLowerCase();
+                  return labelLower.includes(inputLower);
+                })
+                .map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    onSelect={handleSelect}
+                    value={option.value}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selected === option.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </Command>
         </PopoverContent>
