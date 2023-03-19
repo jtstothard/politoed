@@ -2,13 +2,17 @@
   "name": "politoed",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "db:push": "drizzle-kit push:mysql",
+    "db:seed": "ts-node --project tsconfig.node.json src/db/seed/index.ts"
   },
   "dependencies": {
+    "@planetscale/database": "^1.6.0",
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-popover": "^1.0.5",
     "@tanstack/react-query": "^4.27.0",
@@ -19,8 +23,10 @@
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
+    "drizzle-orm": "^0.22.0",
     "google": "link:@next/font/google",
     "lucide-react": "^0.125.0",
+    "mysql2": "^3.2.0",
     "next": "^13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -39,6 +45,8 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "autoprefixer": "^10.4.14",
+    "dotenv": "^16.0.3",
+    "drizzle-kit": "^0.17.0-0cf3fe9",
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
     "postcss": "^8.4.21",
