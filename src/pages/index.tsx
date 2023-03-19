@@ -5,7 +5,6 @@ import { api } from "@/lib/api";
 import { CommandCombobox } from "@/components/combobox";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const { isInitialLoading, data: pokemon } = api.pokemon.getAll.useQuery();
 
   const options =
@@ -44,9 +43,6 @@ const Home: NextPage = () => {
           Politoed
         </h1>
         <CommandCombobox options={options} loading={isInitialLoading} />
-        <p className="text-xl text-slate-700 dark:text-slate-400">
-          {hello?.data?.greeting}
-        </p>
       </main>
     </>
   );
