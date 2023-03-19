@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   const options =
     pokemon?.map((pokemon) => ({
       value: pokemon.id.toString(),
-      label: pokemon.name.english,
+      label: pokemon.name,
     })) ?? [];
 
   return (
